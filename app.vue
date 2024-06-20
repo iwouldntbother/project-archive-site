@@ -15,6 +15,16 @@ body {
   font-family: monospace;
 }
 
+html {
+  font-size: 12px;
+}
+
+@media screen and (max-width: 700px) {
+  html {
+    font-size: 8px;
+  }
+}
+
 /* body::-webkit-scrollbar {
   display: none;
 }

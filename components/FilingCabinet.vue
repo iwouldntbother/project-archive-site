@@ -1,6 +1,6 @@
 <template>
   <ClientOnly>
-    <div class="site-container">
+    <div class="site-container" @touchstart="handleTouchStart">
       <!-- <div>{{ sortedData }}</div> -->
       <div class="about">
         <pre>
@@ -145,6 +145,36 @@ function isDivider(item: Project | Divider): item is Divider {
 
 function isProject(item: Project | Divider): item is Project {
   return (item as Project).title !== undefined;
+}
+
+const openFile: Ref<HTMLElement | null> = ref(null);
+
+function handleTouchStart(event: TouchEvent) {
+  const target = event.target as HTMLElement;
+  const file = target.closest('.file') as HTMLElement;
+
+  console.log(target.classList.contains('file-title'), file, openFile.value);
+
+  if (target.classList.contains('file-title')) {
+    if (file) {
+      if (openFile.value === file) {
+        openFile.value = null;
+        file.style.marginTop = '15rem';
+      } else if (openFile.value) {
+        openFile.value.style.marginTop = '15rem';
+        openFile.value = file;
+        file.style.marginTop = '0rem';
+      } else {
+        openFile.value = file;
+        file.style.marginTop = '0rem';
+      }
+    }
+  } else if (openFile.value && (file == null || !file.contains(target))) {
+    if (openFile.value) {
+      openFile.value.style.marginTop = '15rem';
+      openFile.value = null;
+    }
+  }
 }
 </script>
 
@@ -304,5 +334,27 @@ function isProject(item: Project | Divider): item is Project {
 
 .divider-body {
   background-color: #6b705c;
+}
+
+@media screen and (max-width: 700px) {
+  .site-container {
+    width: 100vw;
+  }
+
+  .cabinet {
+    width: 80vw;
+  }
+
+  .file {
+    width: 80vw;
+  }
+
+  .front {
+    width: calc(80vw + 2rem);
+  }
+
+  .back {
+    width: calc(80vw + 2rem);
+  }
 }
 </style>
