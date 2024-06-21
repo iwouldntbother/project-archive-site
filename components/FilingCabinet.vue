@@ -46,7 +46,9 @@ William Westwood // iwouldntbother // wwstwd</pre
                 top: index * 2 + 'rem',
                 'margin-top':
                   searchValue.length > 0
-                    ? project.title.includes(searchValue)
+                    ? project.title
+                        .toLowerCase()
+                        .includes(searchValue.toLowerCase())
                       ? '0rem'
                       : '15rem'
                     : '15rem',
